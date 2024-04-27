@@ -1,9 +1,15 @@
-var express = require('express');
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+const gameController = require("../controllers/gameController");
+
+// GET home page.
+router.get("/", gameController.fetch_games);
+
+// GET game details and characters at the beginning of the game
+
+// POST when user chooses a dropdown option
+
+// POST when user finishes the game to upload results to leaderboard
 
 module.exports = router;
