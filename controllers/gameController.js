@@ -11,3 +11,13 @@ exports.fetch_games = asyncHandler(async (req, res, next) => {
     games,
   });
 });
+
+exports.game_details = asyncHandler(async (req, res, next) => {
+  const game = await Game.findById(req.params.gameID)
+    .populate("characters")
+    .exec();
+
+  res.status(200).json({
+    game,
+  });
+});
