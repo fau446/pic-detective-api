@@ -11,7 +11,7 @@ const LeaderboardSchema = new Schema({
 });
 
 LeaderboardSchema.virtual("date_formatted").get(function () {
-  return DateTime.fromJSDate(this.date).toLocaleString(DateTime.DATETIME_MED);
+  return DateTime.fromJSDate(this.date).toLocaleString(DateTime.DATE_MED);
 });
 
 module.exports = mongoose.model("Leaderboard", LeaderboardSchema);
