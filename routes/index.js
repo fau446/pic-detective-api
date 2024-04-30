@@ -4,6 +4,7 @@ const router = express.Router();
 const gameController = require("../controllers/gameController");
 const characterController = require("../controllers/characterController");
 const leaderboardController = require("../controllers/leaderboardController");
+const leaderboard = require("../models/leaderboard");
 
 // GET home page.
 router.get("/", gameController.fetch_games);
@@ -18,5 +19,6 @@ router.post("/character/:characterID", characterController.check_coords);
 router.get("/leaderboard/:gameID", leaderboardController.fetch_scores);
 
 // POST when user finishes the game to upload results to leaderboard
+router.post("/submit-score/:gameID", leaderboardController.submit_score);
 
 module.exports = router;

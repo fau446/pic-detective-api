@@ -1,3 +1,4 @@
+const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
 
 const Leaderboard = require("../models/leaderboard");
@@ -16,3 +17,31 @@ exports.fetch_scores = asyncHandler(async (req, res, next) => {
     scores: scoresWithVirtuals,
   });
 });
+
+exports.submit_score = [
+  body("name", "Name cannot be blank!").trim().isLength({ min: 1 }).escape(),
+
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errors: errors.array(),
+      });
+    }
+
+    const gameID = req.params.gameID;
+    const { name, time } = req.body;
+
+    const score = new Leaderboard({
+      name,
+      game: gameID,
+      time,
+    });
+
+    await score.save();
+
+    res.status(200).json({
+      message: "Score succesfully saved!",
+    });
+  }),
+];
