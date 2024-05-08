@@ -1,6 +1,7 @@
 const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
 
+const Game = require("../models/game");
 const Leaderboard = require("../models/leaderboard");
 
 exports.fetch_scores = asyncHandler(async (req, res, next) => {
@@ -9,12 +10,15 @@ exports.fetch_scores = asyncHandler(async (req, res, next) => {
     .sort({ time: 1 })
     .exec();
 
+  const game = await Game.findById(gameID).select({ name: 1 }).exec();
+
   const scoresWithVirtuals = scores.map((score) =>
     score.toJSON({ virtuals: true })
   );
 
   res.status(200).json({
     scores: scoresWithVirtuals,
+    gameName: game.name,
   });
 });
 
